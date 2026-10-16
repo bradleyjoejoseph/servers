@@ -512,6 +512,36 @@ async def test_non_html_is_returned_raw_with_prefix(web: FakeWeb) -> None:
     )
 
 
+async def test_non_html_without_content_type_is_returned_raw(web: FakeWeb) -> None:
+    # A payload with no Content-Type header that is not HTML must not be
+    # forced into HTML readability extraction (#5134).
+    body = '{"status": "ok", "count": 42}'
+    web.add(
+        PAGE,
+        httpx.Response(200, content=body.encode()),
+    )
+    async with connect(ignore_robots_txt=True) as (session, _):
+        result = await call(session, {"url": PAGE})
+    assert text_of(result) == (
+        "Content cannot be simplified to markdown, but here is the raw content:\n"
+        f"Contents of {PAGE}:\n{body}"
+    )
+
+
+async def test_plain_text_without_content_type_is_returned_raw(web: FakeWeb) -> None:
+    body = "hello world\nline 2"
+    web.add(
+        PAGE,
+        httpx.Response(200, content=body.encode()),
+    )
+    async with connect(ignore_robots_txt=True) as (session, _):
+        result = await call(session, {"url": PAGE})
+    assert text_of(result) == (
+        "Content cannot be simplified to markdown, but here is the raw content:\n"
+        f"Contents of {PAGE}:\n{body}"
+    )
+
+
 @pytest.mark.parametrize("status", [400, 404, 500, 503])
 async def test_http_error_status(web: FakeWeb, status: int) -> None:
     web.add(PAGE, plain("nope", status=status))
