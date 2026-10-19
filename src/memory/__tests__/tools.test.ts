@@ -71,7 +71,7 @@ const statusOutputSchema = {
 const writeAnnotations = {
   readOnlyHint: false,
   destructiveHint: false,
-  idempotentHint: false,
+  idempotentHint: true,
   openWorldHint: false,
 };
 const deleteAnnotations = {

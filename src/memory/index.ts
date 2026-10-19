@@ -784,7 +784,7 @@ export function createServer(memoryFilePath: string): McpServer {
       annotations: {
         readOnlyHint: false,
         destructiveHint: false,
-        idempotentHint: false,
+        idempotentHint: true,
         openWorldHint: false,
       },
     },
@@ -829,7 +829,7 @@ export function createServer(memoryFilePath: string): McpServer {
       annotations: {
         readOnlyHint: false,
         destructiveHint: false,
-        idempotentHint: false,
+        idempotentHint: true,
         openWorldHint: false,
       },
     },
@@ -875,7 +875,7 @@ export function createServer(memoryFilePath: string): McpServer {
       annotations: {
         readOnlyHint: false,
         destructiveHint: false,
-        idempotentHint: false,
+        idempotentHint: true,
         openWorldHint: false,
       },
     },
